@@ -203,7 +203,7 @@ def redirect(pattern, to, permanent=True, locale_prefix=True, anchor=None, name=
 
         # If it's a callable, call it and get the url out.
         if callable(to):
-            to_value = to(request, *args, **kwargs)
+            to_value = to(request)
         else:
             to_value = to
 
