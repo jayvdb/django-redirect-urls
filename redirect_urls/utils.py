@@ -220,8 +220,8 @@ def redirect(pattern, to, permanent=True, locale_prefix=True, anchor=None, name=
             redirect_url = '/{locale}' + redirect_url.lstrip('/')
 
         # use info from url captures.
-        if args or kwargs:
-            redirect_url = strip_tags(force_text(redirect_url).format(*args, **kwargs))
+        #if args or kwargs:
+        #    redirect_url = strip_tags(force_text(redirect_url).format(*args, **kwargs))
 
         if query:
             if merge_query:
