@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from django.core.urlresolvers import resolve
+
 import logging
 import re
 try:
@@ -127,7 +129,8 @@ def no_redirect(pattern, locale_prefix=True, re_flags=None):
 
 def redirect(pattern, to, permanent=True, locale_prefix=True, anchor=None, name=None,
              query=None, vary=None, cache_timeout=12, decorators=None, re_flags=None,
-             to_args=None, to_kwargs=None, prepend_locale=True, merge_query=False):
+             to_args=None, to_kwargs=None, prepend_locale=True, merge_query=False,
+             internal=False):
     """
     Return a url matcher suited for urlpatterns.
 
@@ -240,6 +243,10 @@ def redirect(pattern, to, permanent=True, locale_prefix=True, anchor=None, name=
 
         if PROTOCOL_RELATIVE_RE.match(redirect_url):
             redirect_url = '/' + redirect_url.lstrip('/')
+
+        if internal:
+            callback, callback_args, callback_kwargs = resolve(redirect_url)
+            return callback(request, *callback_args, **callback_kwargs)
 
         return redirect_class(redirect_url)
 
